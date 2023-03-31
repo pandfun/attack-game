@@ -1,22 +1,49 @@
 #include "game.h"
-#include <stdio.h>
 
-void options(int* my_health, int* enemy_health)
+int options(int* my_health, int* enemy_health)
 {
-	int ch;
+	int ch, rc;
 
 	printf("(1. Attack) (2. Heal)\n");
 	printf("Enter your choice: ");
 	scanf("%d", &ch);
 
 	if (ch == 1) {
-		attack(enemy_health);
+		rc = attack(enemy_health);
+		
 	} else if (ch == 2) {
 		heal(my_health);
+		return 0;
+
 	} else {
 		printf("Invalid Choice!\n");
 		exit(1);
 	}
+
+	return rc;
+}
+
+int attack(int* health)
+{
+	int random_val = get_random();
+	*health -= random_val;
+
+	if (*health < 1) {
+		return -1;
+	}
+
+	return 0;
+}
+
+void heal(int* health)
+{
+	int random_val = get_random();
+	while (random_val > (100 - *health))
+		random_val = get_random();
+	
+	*health += random_val;
+
+	return;
 }
 
 void display_health(int *health1, int *health2)
@@ -41,30 +68,6 @@ void display_health(int *health1, int *health2)
 			printf("❚");
 		printf("\n\n");
 	}
-
-	return;
-}
-
-void attack(int* health)
-{
-	int random_val = get_random();
-	*health -= random_val;
-
-	if (*health < 1) {
-		printf("Game over...\n");
-		exit(1);
-	}
-
-	return;
-}
-
-void heal(int* health)
-{
-	int random_val = get_random();
-	while (random_val > (100 - *health))
-		random_val = get_random();
-	
-	*health += random_val;
 
 	return;
 }
