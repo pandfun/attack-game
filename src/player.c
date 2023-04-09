@@ -38,10 +38,10 @@ int attack(int* health)
 void heal(int* health)
 {
 	int random_val = get_random();
-	while (random_val > (100 - *health))
-		random_val = get_random();
-	
 	*health += random_val;
+
+	if (*health > 100)
+		*health = 100;
 
 	return;
 }
